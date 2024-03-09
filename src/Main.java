@@ -20,8 +20,6 @@ public class Main {
         Task subtask2 = new Subtask("name2", "desc2", 6, Status.IN_PROGRESS, 4);
         Task subtask3 = new Subtask("name2", "desc2", 7, Status.DONE, 4);
 
-        //tm.createTask(subtask1);
-
         tm.createTask(task1);
         tm.createTask(task2);
         tm.createTask(epic1);

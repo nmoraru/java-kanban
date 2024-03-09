@@ -19,14 +19,6 @@ public class TaskManager {
         int newTaskId = getNewTaskId();
         task.setId(newTaskId);
 
-        //TODO
-//        if (task.getClass() == Subtask.class) {
-//            int epicId = ((Subtask) task).getEpicId();
-//            if (getTaskToId(epicId) == null) {
-//                return;
-//            }
-//        }
-
         taskMap.put(newTaskId, task);
 
         if (task.getClass() == Epic.class) {
