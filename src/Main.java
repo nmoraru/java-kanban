@@ -121,8 +121,14 @@ public class Main {
         System.out.println("\t" + tm.getAllEpics());
 
         System.out.println("\tПроверка очистки всех эпиков");
+        Subtask subtask4 = new Subtask("subtask4", "subtask4", 11, Status.DONE, 4);
+        tm.createSubtask(subtask4);
+        System.out.println("\t" + tm.getAllEpics());
         tm.removeAllEpics();
         System.out.println("\t" + tm.getAllEpics());
+
+        System.out.println("\tВывод списка всех сабтасок");
+        System.out.println("\t" + tm.getAllSubtasks());
 
     }
 }

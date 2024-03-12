@@ -67,14 +67,23 @@ public class TaskManager {
     public void removeAllSubtasks() {
         for (Subtask subtask : subtaskMap.values()) {
             int epicId = subtask.getEpicId();
-            removeEpicById(epicId);
+            Epic epic = epicMap.get(epicId);
+            epic.removeSubtaskToEpic(subtask);
         }
+        subtaskMap.clear();
     }
 
     public void removeAllEpics() {
         for (Epic epic : epicMap.values()) {
-            removeEpicById(epic.getId());
+            ArrayList<Integer> subtasksInEpicId = new ArrayList<>();
+            for (Subtask subtask : epic.getSubtasksInEpic()) {
+                subtasksInEpicId.add(subtask.getId());
+            }
+            for (int subtaskId : subtasksInEpicId) {
+                removeSubtaskById(subtaskId);
+            }
         }
+        epicMap.clear();
     }
 
     public Task getTaskToId(int id) {
@@ -114,7 +123,7 @@ public class TaskManager {
     public void removeEpicById(int id) {
         ArrayList<Subtask> subtasksInEpic = getEpicToId(id).getSubtasksInEpic();
         for (Subtask subtask : subtasksInEpic) {
-            subtaskMap.remove(subtask);
+            subtaskMap.remove(subtask.getId());
         }
         epicMap.remove(id);
     }

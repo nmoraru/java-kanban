@@ -41,7 +41,7 @@ public class Epic extends Task {
         calculateEpicStatus();
     }
 
-    public void calculateEpicStatus() {
+    private void calculateEpicStatus() {
         Status status = Status.NEW;
         int countDoneSubtasks = 0;
         int countNewSubtasks = 0;
