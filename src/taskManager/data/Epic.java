@@ -3,14 +3,10 @@ package taskManager.data;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    private ArrayList<Subtask> subtasksInEpic;
+    private ArrayList<Subtask> subtasksInEpic = new ArrayList<>();
 
-    public Epic(String name, String description, int id, ArrayList<Subtask> subtasksInEpic) {
+    public Epic(String name, String description, int id) {
         super(name, description, id, Status.NEW);
-        if (subtasksInEpic.isEmpty()) {
-            subtasksInEpic = new ArrayList<>();
-        }
-        this.subtasksInEpic = subtasksInEpic;
     }
 
     @Override

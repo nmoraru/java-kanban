@@ -4,8 +4,6 @@ import taskManager.data.Subtask;
 import taskManager.data.Task;
 import taskManager.manager.TaskManager;
 
-import java.util.ArrayList;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -45,10 +43,10 @@ public class Main {
         // Проверки работы с эпиками
         System.out.println("Проверки работы с эпиками");
         System.out.println("\tИнициализация эпиков");
-        Epic epic1 = new Epic("epic1", "epic1", 4, new ArrayList<>());
-        Epic epic2 = new Epic("epic2", "epic2", 5, new ArrayList<>());
-        Epic epic3 = new Epic("epic3", "epic3", 6, new ArrayList<>());
-        Epic epic4 = new Epic("epic4", "epic4", 7, new ArrayList<>());
+        Epic epic1 = new Epic("epic1", "epic1", 4);
+        Epic epic2 = new Epic("epic2", "epic2", 5);
+        Epic epic3 = new Epic("epic3", "epic3", 6);
+        Epic epic4 = new Epic("epic4", "epic4", 7);
 
         System.out.println("\tДобавление эпиков");
         tm.createEpic(epic1);
@@ -63,7 +61,7 @@ public class Main {
         System.out.println("\t" + tm.getEpicToId(4));
 
         System.out.println("\tПроверка обновления эпика");
-        Epic epic1update = new Epic("epic1update", "epic1update", 4, new ArrayList<>());
+        Epic epic1update = new Epic("epic1update", "epic1update", 4);
         tm.updateEpic(epic1update);
         System.out.println("\t" + tm.getAllEpics());
 
