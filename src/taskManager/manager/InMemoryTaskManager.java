@@ -11,28 +11,21 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private static int currentTaskId = 0;
-    private static final int HISTORY_MAX_SIZE = 10;
 
     private HashMap<Integer, Task> taskMap = new HashMap<>();
     private HashMap<Integer, Epic> epicMap = new HashMap<>();
     private HashMap<Integer, Subtask> subtaskMap = new HashMap<>();
-    private List<Task> history = new ArrayList<>();
+
+    private HistoryManager historyManager = Managers.getDefaultHistory();
 
     public int getNewId() {
         InMemoryTaskManager.currentTaskId += 1;
         return InMemoryTaskManager.currentTaskId;
     }
 
-    private void addTaskToHistory(Task task) {
-        history.add(task);
-        if (history.size() > HISTORY_MAX_SIZE) {
-            history.remove(0);
-        }
-    }
-
     @Override
     public List<Task> getHistory() {
-        return history;
+        return historyManager.getHistory();
     }
 
     @Override
@@ -114,21 +107,21 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskToId(int id) {
         Task task = taskMap.get(id);
-        addTaskToHistory(task);
+        historyManager.add(task);
         return task;
     }
 
     @Override
     public Subtask getSubtaskToId(int id) {
         Subtask subtask = subtaskMap.get(id);
-        addTaskToHistory(subtask);
+        historyManager.add(subtask);
         return subtask;
     }
 
     @Override
     public Epic getEpicToId(int id) {
         Epic epic = epicMap.get(id);
-        addTaskToHistory(epic);
+        historyManager.add(epic);
         return epic;
     }
 
