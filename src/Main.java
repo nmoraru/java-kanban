@@ -2,12 +2,13 @@ import taskManager.data.Epic;
 import taskManager.data.Status;
 import taskManager.data.Subtask;
 import taskManager.data.Task;
+import taskManager.manager.Managers;
 import taskManager.manager.TaskManager;
 
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager tm = new TaskManager();
+        TaskManager tm = Managers.getDefault();
 
         // Проверки работы с тасками
         System.out.println("Проверки работы с тасками");
@@ -127,6 +128,9 @@ public class Main {
 
         System.out.println("\tВывод списка всех сабтасок");
         System.out.println("\t" + tm.getAllSubtasks());
+
+        System.out.println("\tВывод истории запроса задач");
+        System.out.println("\t" + tm.getHistory());
 
     }
 }
