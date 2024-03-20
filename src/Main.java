@@ -61,6 +61,9 @@ public class Main {
         System.out.println("\tВывод эпика по ID");
         System.out.println("\t" + tm.getEpicToId(4));
 
+        System.out.println("\tВывод несуществующего эпика по ID");
+        System.out.println("\t" + tm.getEpicToId(444));
+
         System.out.println("\tПроверка обновления эпика");
         Epic epic1update = new Epic("epic1update", "epic1update", 4);
         tm.updateEpic(epic1update);

@@ -10,17 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    private static int currentTaskId = 0;
-
+    private int currentTaskId = 0;
     private HashMap<Integer, Task> taskMap = new HashMap<>();
     private HashMap<Integer, Epic> epicMap = new HashMap<>();
     private HashMap<Integer, Subtask> subtaskMap = new HashMap<>();
-
     private HistoryManager historyManager = Managers.getDefaultHistory();
 
     public int getNewId() {
-        InMemoryTaskManager.currentTaskId += 1;
-        return InMemoryTaskManager.currentTaskId;
+        currentTaskId += 1;
+        return currentTaskId;
     }
 
     @Override
@@ -47,9 +45,12 @@ public class InMemoryTaskManager implements TaskManager {
         int epicId = subtask.getEpicId();
         Epic epic = epicMap.get(epicId);
 
-        subtask.setId(newTaskId);
-        subtaskMap.put(newTaskId, subtask);
-        epic.addSubtaskToEpic(subtask);
+        if (epic != null) {
+            subtask.setId(newTaskId);
+            subtaskMap.put(newTaskId, subtask);
+
+            epic.addSubtaskToEpic(subtask);
+        }
     }
 
     @Override
