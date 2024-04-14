@@ -1,4 +1,4 @@
-package taskManager.data;
+package taskmanager.data;
 
 import java.util.Objects;
 

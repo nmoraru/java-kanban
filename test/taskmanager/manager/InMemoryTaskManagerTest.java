@@ -1,10 +1,10 @@
-package taskManager.manager;
+package taskmanager.manager;
 
 import org.junit.jupiter.api.Test;
-import taskManager.data.Epic;
-import taskManager.data.Status;
-import taskManager.data.Subtask;
-import taskManager.data.Task;
+import taskmanager.data.Epic;
+import taskmanager.data.Status;
+import taskmanager.data.Subtask;
+import taskmanager.data.Task;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,8 +1,8 @@
-package taskManager.manager;
+package taskmanager.manager;
 
 import org.junit.jupiter.api.Test;
-import taskManager.data.Status;
-import taskManager.data.Task;
+import taskmanager.data.Status;
+import taskmanager.data.Task;
 
 import java.util.ArrayList;
 import java.util.List;

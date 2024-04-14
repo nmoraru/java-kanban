@@ -1,4 +1,4 @@
-package taskManager.data;
+package taskmanager.data;
 
 import org.junit.jupiter.api.Test;
 
