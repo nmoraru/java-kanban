@@ -140,6 +140,7 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epicMap.get(epicId);
         epic.addSubtaskToEpic(subtask);
     }
+
     @Override
     public void updateEpic(Epic epic) {
         int epicId = epic.getId();
