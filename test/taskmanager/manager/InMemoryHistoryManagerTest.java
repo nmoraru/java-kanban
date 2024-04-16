@@ -12,20 +12,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class InMemoryHistoryManagerTest {
 
     @Test
-    public void shouldBeSaveOldVersionTaskInHistory() {
+    public void shouldNotBeSaveOldVersionTaskInHistory() {
         TaskManager tm = Managers.getDefault();
-        List<Task> listTask = new ArrayList<>();
         Task task1 = new Task("task1", "task1", 1, Status.IN_PROGRESS);
-        Task task2 = new Task("task1_update", "task1_update", 1, Status.DONE);
+        Task task1_update = new Task("task1_update", "task1_update", 1, Status.DONE);
 
-        listTask.add(task1);
-        listTask.add(task2);
         tm.createTask(task1);
         tm.getTaskToId(1);
-        tm.updateTask(task2);
+        tm.updateTask(task1_update);
         tm.getTaskToId(1);
 
-        assertEquals(listTask, tm.getHistory());
+        assertEquals(1, tm.getHistory().size());
+        assertEquals(task1_update.getName(), tm.getHistory().get(0).getName());
+        assertEquals(task1_update.getDescription(), tm.getHistory().get(0).getDescription());
+        assertEquals(task1_update.getId(), tm.getHistory().get(0).getId());
+        assertEquals(task1_update.getStatus(), tm.getHistory().get(0).getStatus());
     }
 
 }
