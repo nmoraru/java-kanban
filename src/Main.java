@@ -5,9 +5,13 @@ import taskmanager.data.Task;
 import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 
+import java.util.LinkedList;
+
 public class Main {
 
     public static void main(String[] args) {
+        LinkedList<String> list = new LinkedList<>();
+
         TaskManager tm = Managers.getDefault();
 
         // Проверки работы с тасками
@@ -27,6 +31,14 @@ public class Main {
 
         System.out.println("\tВывод таски по ID");
         System.out.println("\t" + tm.getTaskToId(1));
+        System.out.println("\t" + tm.getTaskToId(1));
+        System.out.println("\t" + tm.getTaskToId(2));
+        System.out.println("\t" + tm.getTaskToId(1));
+        tm.removeAllTasks();
+
+
+        System.out.println("\tВывод истории запроса задач");
+        System.out.println("\t" + tm.getHistory());
 
         System.out.println("\tПроверка обновления таски");
         Task task2update = new Task("task2update", "task2update", 2, Status.NEW);
@@ -93,6 +105,9 @@ public class Main {
 
         System.out.println("\tВывод списка созданных сабтасок");
         System.out.println("\t" + tm.getAllSubtasks());
+        tm.removeAllSubtasks();
+        System.out.println("\tВывод списка созданных сабтасок");
+        System.out.println("\t" + tm.getAllSubtasks());
 
         System.out.println("\tВывод сабтаски по ID");
         System.out.println("\t" + tm.getSubtaskToId(8));
@@ -112,7 +127,7 @@ public class Main {
         System.out.println("\t" + tm.getAllEpics());
 
         System.out.println("\tУдаление сабтаски по ID");
-        tm.removeSubtaskById(9);
+        //tm.removeSubtaskById(9);
         System.out.println("\t" + tm.getAllSubtasks());
 
         System.out.println("\tВывод списка эпиков");
@@ -135,6 +150,7 @@ public class Main {
         System.out.println("\tВывод списка всех сабтасок");
         System.out.println("\t" + tm.getAllSubtasks());
 
+        tm.removeAllTasks();
         System.out.println("\tВывод истории запроса задач");
         System.out.println("\t" + tm.getHistory());
 
