@@ -104,7 +104,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllEpics() {
-        Set<Integer> idEpics= epicMap.keySet();
+        Set<Integer> idEpics = epicMap.keySet();
         if (!idEpics.isEmpty()) {
             for (Integer id : idEpics) {
                 historyManager.remove(id);
