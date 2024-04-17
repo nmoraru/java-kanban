@@ -1,6 +1,5 @@
 package taskmanager.manager;
 
-import taskmanager.data.Node;
 import taskmanager.data.Task;
 
 import java.util.*;
@@ -21,24 +20,21 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void linkLast(Task task) {
-        Node<Task> newNode = new Node<>(task);
+        Node newNode = new Node<>(task);
         if (mapHistory.isEmpty()) {
             head = newNode;
-            tail = newNode;
         } else {
-            Node<Task> oldHead = head;
-            oldHead.next = newNode;
-            newNode.prev = oldHead;
-            head = newNode;
+            tail.next = newNode;
+            newNode.prev = tail;
         }
+        tail = newNode;
         mapHistory.put(task.getId(), newNode);
     }
 
     @Override
     public List<Task> getHistory() {
-        Collection<Node<Task>> listNodes = mapHistory.values();
         ArrayList<Task> listResult = new ArrayList<>();
-        for (Node<Task> node : listNodes) {
+        for (Node<Task> node : mapHistory.values()) {
             listResult.add(node.data);
         }
         return listResult;
@@ -63,12 +59,12 @@ public class InMemoryHistoryManager implements HistoryManager {
                 tail = null;
             } else if (nextNode == null) {
                 prevNode.next = null;
-                head = prevNode;
+                tail = prevNode;
                 node.prev = null;
                 node.next = null;
             } else if (prevNode == null) {
                 nextNode.prev = null;
-                tail = nextNode;
+                head = nextNode;
                 node.prev = null;
                 node.next = null;
             } else {
@@ -78,5 +74,18 @@ public class InMemoryHistoryManager implements HistoryManager {
                 node.next = null;
             }
         }
+    }
+}
+
+class Node<Task> {
+
+    public Task data;
+    public Node<Task> next;
+    public Node<Task> prev;
+
+    public Node(Task data) {
+        this.data = data;
+        this.next = null;
+        this.prev = null;
     }
 }
