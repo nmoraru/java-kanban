@@ -1,4 +1,4 @@
-package taskManager.data;
+package taskmanager.data;
 
 import java.util.Objects;
 
@@ -36,7 +36,7 @@ public class Task {
     }
 
     @Override
-    final public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
@@ -44,7 +44,7 @@ public class Task {
     }
 
     @Override
-    final public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(id);
     }
 

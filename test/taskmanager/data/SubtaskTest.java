@@ -1,8 +1,8 @@
-package taskManager.data;
+package taskmanager.data;
 
 import org.junit.jupiter.api.Test;
-import taskManager.manager.Managers;
-import taskManager.manager.TaskManager;
+import taskmanager.manager.Managers;
+import taskmanager.manager.TaskManager;
 
 import java.util.Collection;
 
