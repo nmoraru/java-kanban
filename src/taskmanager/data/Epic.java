@@ -7,6 +7,7 @@ public class Epic extends Task {
 
     public Epic(String name, String description, int id) {
         super(name, description, id, Status.NEW);
+        type = Type.EPIC;
     }
 
     @Override
@@ -14,6 +15,7 @@ public class Epic extends Task {
         return "Epic{" +
                 "subtasks=" + subtasksInEpic +
                 ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +

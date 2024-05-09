@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Task {
     protected String name;
+    protected Type type;
     protected String description;
     protected int id;
     protected Status status;
@@ -13,10 +14,15 @@ public class Task {
         this.description = description;
         this.id = id;
         this.status = status;
+        type = Type.TASK;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public String getDescription() {
@@ -52,6 +58,7 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "name='" + name + '\'' +
+                "type='" + type + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
