@@ -8,7 +8,6 @@ import static taskmanager.manager.FileBackedTaskManager.loadFromFile;
 
 public class Main {
 
-
     public static void main(String[] args) throws IOException {
         String path = "tasks.csv";
         File file = new File(path);

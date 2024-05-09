@@ -4,6 +4,7 @@ import taskmanager.data.Epic;
 import taskmanager.data.Status;
 import taskmanager.data.Subtask;
 import taskmanager.data.Task;
+import taskmanager.exception.ManagerLoadException;
 import taskmanager.exception.ManagerSaveException;
 
 import java.io.File;
@@ -62,74 +63,84 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return null;
     }
 
-    private Task fromString(String value) {
+    public static Task fromString(String value) {
+        String[] itemParams = value.split(",");
 
+        int id = Integer.parseInt(itemParams[0]);
+        String name = itemParams[2];
+        String description = itemParams[4];
+        Status status;
+        String type = itemParams[1];
+
+        if (itemParams[3].equals("NEW")) {
+            status = Status.NEW;
+        } else if (itemParams[3].equals("IN_PROGRESS")) {
+            status = Status.IN_PROGRESS;
+        } else {
+            status = Status.DONE;
+        }
+
+        if (type.equals("TASK")) {
+            Task task = new Task(
+                    name,
+                    description,
+                    id,
+                    status
+            );
+            return task;
+        }
+
+        if (type.equals("SUBTASK")) {
+            int epicId = Integer.parseInt(itemParams[5]);
+
+            Subtask subtask = new Subtask(
+                    name,
+                    description,
+                    id,
+                    status,
+                    epicId
+            );
+            return subtask;
+        }
+
+        if (type.equals("EPIC")) {
+            Epic epic = new Epic(
+                    name,
+                    description,
+                    id
+            );
+            return epic;
+        }
 
         return null;
     }
 
-    public static FileBackedTaskManager loadFromFile(File file) throws IOException {
+    public static FileBackedTaskManager loadFromFile(File file) {
         FileBackedTaskManager tm = Managers.getFileBackedTaskManager(file);
 
-        String[] items = Files.readString(file.toPath()).split("\n");
+        try {
+            try {
+                String[] items = Files.readString(file.toPath()).split("\n");
+                if (items.length == 1) {
+                    return tm;
+                }
 
-        if (items.length == 1) {
+                for (int i = 1; i < items.length; i++) {
+                    Task task = fromString(items[i]);
+                    switch (task.getType()) {
+                        case TASK -> tm.createTask(task);
+                        case EPIC -> tm.createEpic((Epic) task);
+                        case SUBTASK -> tm.createSubtask((Subtask) task);
+                    }
+                }
+                return tm;
+            } catch (IOException e) {
+                throw new ManagerLoadException();
+            }
+        } catch (ManagerLoadException e) {
+            System.out.println(e.getMessage());
             return tm;
         }
-
-        for (int i = 1; i < items.length; i++) {
-            String[] itemParams = items[i].split(",");
-
-            int id = Integer.parseInt(itemParams[0]);
-            String name = itemParams[2];
-            String description = itemParams[4];
-            Status status;
-            String type = itemParams[1];
-
-            if (itemParams[3].equals("NEW")) {
-                status = Status.NEW;
-            } else if (itemParams[3].equals("IN_PROGRESS")) {
-                status = Status.IN_PROGRESS;
-            } else {
-                status = Status.DONE;
-            }
-
-            if (type.equals("TASK")) {
-                Task task = new Task(
-                        name,
-                        description,
-                        id,
-                        status
-                );
-                tm.createTask(task);
-            }
-
-            if (type.equals("SUBTASK")) {
-                int epicId = Integer.parseInt(itemParams[5]);
-
-                Subtask subtask = new Subtask(
-                        name,
-                        description,
-                        id,
-                        status,
-                        epicId
-                );
-                tm.createSubtask(subtask);
-            }
-
-            if (type.equals("EPIC")) {
-                Epic epic = new Epic(
-                        name,
-                        description,
-                        id
-                );
-                tm.createEpic(epic);
-            }
-
-
-        }
-
-        return tm;
     }
 
     @Override
