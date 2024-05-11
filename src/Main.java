@@ -2,14 +2,13 @@ import taskmanager.data.Task;
 import taskmanager.manager.TaskManager;
 
 import java.io.File;
-import java.io.IOException;
 
 import static taskmanager.manager.FileBackedTaskManager.loadFromFile;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        String path = "tasks.csv";
+    public static void main(String[] args) {
+        String path = "resources/data.csv";
         File file = new File(path);
 
         TaskManager tm = loadFromFile(file);

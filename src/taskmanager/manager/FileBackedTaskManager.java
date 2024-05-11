@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
+public class FileBackedTaskManager extends InMemoryTaskManager {
     private String filePath;
 
     public FileBackedTaskManager(String filePath) {
@@ -27,17 +27,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         allBacklog.putAll(epicMap);
         allBacklog.putAll(subtaskMap);
 
-        try {
-            try (FileWriter fw = new FileWriter(filePath)) {
-                fw.write("id,type,name,status,description,epic\n");
-                for (Task element : allBacklog.values()) {
-                    fw.write(toString(element) + "\n");
-                }
-            } catch (IOException e) {
-                throw new ManagerSaveException();
+        try (FileWriter fw = new FileWriter(filePath)) {
+            fw.write("id,type,name,status,description,epic\n");
+            for (Task element : allBacklog.values()) {
+                fw.write(toString(element) + "\n");
             }
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            throw new ManagerSaveException();
         }
     }
 
@@ -119,27 +115,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         FileBackedTaskManager tm = Managers.getFileBackedTaskManager(file);
 
         try {
-            try {
-                String[] items = Files.readString(file.toPath()).split("\n");
-                if (items.length == 1) {
-                    return tm;
-                }
-
-                for (int i = 1; i < items.length; i++) {
-                    Task task = fromString(items[i]);
-                    switch (task.getType()) {
-                        case TASK -> tm.createTask(task);
-                        case EPIC -> tm.createEpic((Epic) task);
-                        case SUBTASK -> tm.createSubtask((Subtask) task);
-                    }
-                }
+            String[] items = Files.readString(file.toPath()).split("\n");
+            if (items.length == 1) {
                 return tm;
-            } catch (IOException e) {
-                throw new ManagerLoadException();
             }
-        } catch (ManagerLoadException e) {
-            System.out.println(e.getMessage());
+
+            for (int i = 1; i < items.length; i++) {
+                Task task = fromString(items[i]);
+                switch (task.getType()) {
+                    case TASK -> tm.createTask(task);
+                    case EPIC -> tm.createEpic((Epic) task);
+                    case SUBTASK -> tm.createSubtask((Subtask) task);
+                }
+            }
             return tm;
+        } catch (IOException e) {
+            throw new ManagerLoadException();
         }
     }
 

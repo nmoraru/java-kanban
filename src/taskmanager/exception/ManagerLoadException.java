@@ -1,8 +1,6 @@
 package taskmanager.exception;
 
-import java.io.IOException;
-
-public class ManagerLoadException extends IOException {
+public class ManagerLoadException extends RuntimeException {
     public ManagerLoadException() {
         super("Произошла ошибка во время чтения файла.");
     }
