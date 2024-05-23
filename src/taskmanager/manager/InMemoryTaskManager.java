@@ -8,9 +8,9 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private int currentTaskId = 0;
-    private HashMap<Integer, Task> taskMap = new HashMap<>();
-    private HashMap<Integer, Epic> epicMap = new HashMap<>();
-    private HashMap<Integer, Subtask> subtaskMap = new HashMap<>();
+    protected HashMap<Integer, Task> taskMap = new HashMap<>();
+    protected HashMap<Integer, Epic> epicMap = new HashMap<>();
+    protected HashMap<Integer, Subtask> subtaskMap = new HashMap<>();
     private HistoryManager historyManager = Managers.getDefaultHistory();
 
     public int getNewId() {
