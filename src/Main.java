@@ -13,6 +13,11 @@ public class Main {
 
         TaskManager tm = loadFromFile(file);
         printAllTasks(tm);
+        System.out.println("Отсортированные задачи:");
+        for (Task task : tm.getPrioritizedTasks()) {
+            System.out.println(task);
+        }
+
     }
 
     private static void printAllTasks(TaskManager manager) {

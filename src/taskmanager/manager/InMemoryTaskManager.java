@@ -195,4 +195,11 @@ public class InMemoryTaskManager implements TaskManager {
         epic.removeSubtaskToEpic(subtask);
     }
 
+    public TreeSet<Task> getPrioritizedTasks() {
+        TreeSet<Task> prioritizedTasks = new TreeSet<>();
+        prioritizedTasks.addAll(taskMap.values());
+        prioritizedTasks.addAll(subtaskMap.values());
+        return prioritizedTasks;
+    }
+
 }

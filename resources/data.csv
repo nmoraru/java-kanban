@@ -1,11 +1,11 @@
-id,type,name,status,description,epic
-1,TASK,task1name,DONE,task1description,
-2,TASK,task2name,DONE,task2description,
-3,TASK,task3name,IN_PROGRESS,task3description,
-4,EPIC,epic1name,NEW,epic1description,
-5,EPIC,epic2name,IN_PROGRESS,epic2description,
-6,EPIC,epic3name,NEW,epic3description,
-7,EPIC,epic4name,NEW,epic4description,
-8,SUBTASK,subtask1name,NEW,subtask1description,4
-9,SUBTASK,subtask2name,IN_PROGRESS,subtask2description,5
-10,SUBTASK,subtask3name,DONE,subtask3description,5
+id,type,name,status,description,duration,startTime,endTime,epic
+1,TASK,task1name,DONE,task1description,10,27.10.1990 11:33,27.10.1990 11:43,
+2,TASK,task2name,DONE,task2description,10,26.10.1990 11:44,26.10.1990 11:54,
+3,TASK,task3name,IN_PROGRESS,task3description,10,25.12.1990 11:55,25.12.1990 12:05,
+4,EPIC,epic1name,NEW,epic1description,999,25.01.1990 11:55,26.01.1990 04:34,
+5,EPIC,epic2name,IN_PROGRESS,epic2description,5760,30.12.1990 11:00,03.01.1991 11:00,
+6,EPIC,epic3name,NEW,epic3description,0,01.01.9999 00:00,01.01.9999 00:00,
+7,EPIC,epic4name,NEW,epic4description,0,01.01.9999 00:00,01.01.9999 00:00,
+8,SUBTASK,subtask1name,NEW,subtask1description,999,25.01.1990 11:55,26.01.1990 04:34,4
+9,SUBTASK,subtask2name,IN_PROGRESS,subtask2description,2880,30.12.1990 11:00,01.01.1991 11:00,5
+10,SUBTASK,subtask3name,DONE,subtask3description,2880,30.12.1990 11:00,01.01.1991 11:00,5
