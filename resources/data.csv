@@ -9,3 +9,5 @@ id,type,name,status,description,duration,startTime,endTime,epic
 8,SUBTASK,subtask1name,NEW,subtask1description,1440,10.01.1990 11:00,11.01.1990 11:00,4
 9,SUBTASK,subtask2name,IN_PROGRESS,subtask2description,1440,12.01.1990 11:00,13.01.1990 11:00,5
 10,SUBTASK,subtask3name,DONE,subtask3description,1440,14.01.1990 11:00,15.01.1990 11:00,5
+11,SUBTASK,subtask4name,NEW,subtask4description,1440,10.01.1990 11:00,11.01.1990 11:00,4
+12,SUBTASK,subtask5name,NEW,subtask5description,1440,01.01.1990 13:00,02.01.1990 13:00,4

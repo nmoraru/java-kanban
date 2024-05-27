@@ -40,6 +40,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createSubtask(Subtask subtask) {
+        if (isBusyTimeForTask(subtask)) {
+            return;
+        }
         int epicId = subtask.getEpicId();
         Epic epic = epicMap.get(epicId);
 
@@ -50,16 +53,32 @@ public class InMemoryTaskManager implements TaskManager {
         epic.addSubtaskToEpic(subtask);
     }
 
-    public static boolean isAfterOtherTask(Task t1, Task t2) {
+    private boolean isBusyTimeForTask (Task task) {
+        if (!prioritizedTasks.isEmpty()) {
+            for (Task prioritizedTask : getPrioritizedTasks()) {
+                if (!isBeforeOtherTask(prioritizedTask, task)) {
+                    if (!isAfterOtherTask(prioritizedTask, task)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isAfterOtherTask(Task t1, Task t2) {
         return t1.getStartTime().isAfter(t2.getEndTime());
     }
 
-    public static boolean isBeforeOtherTask(Task t1, Task t2) {
+    private boolean isBeforeOtherTask(Task t1, Task t2) {
         return t1.getEndTime().isBefore(t2.getStartTime());
     }
 
     @Override
     public void createTask(Task task) {
+        if (isBusyTimeForTask(task)) {
+            return;
+        }
         int newTaskId = getNewId();
         task.setId(newTaskId);
         taskMap.put(newTaskId, task);
@@ -149,6 +168,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
+        if (isBusyTimeForTask(task)) {
+            return;
+        }
         int taskId = task.getId();
         taskMap.put(taskId, task);
         prioritizedTasks.add(task);
@@ -156,6 +178,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubtask(Subtask subtask) {
+        if (isBusyTimeForTask(subtask)) {
+            return;
+        }
         int subtaskId = subtask.getId();
         int epicId = subtask.getEpicId();
         subtaskMap.put(subtaskId, subtask);
