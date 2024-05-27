@@ -5,6 +5,7 @@ import taskmanager.data.Subtask;
 import taskmanager.data.Task;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
     private int currentTaskId = 0;
@@ -26,9 +27,14 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Subtask> getSubtasksToEpicId(int epicId) {
-        Epic epic = epicMap.get(epicId);
-        return epic.getSubtasksInEpic();
+    public ArrayList<Subtask> getEpicSubtasks(int epicId) {
+        return epicMap.values()
+                .stream()
+                .filter(epic -> epic.getId() == epicId)
+                .map(epic -> epic.getSubtasksInEpic())
+                .collect(Collectors.toList())
+                .get(0)
+                ;
     }
 
     @Override

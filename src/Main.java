@@ -18,6 +18,8 @@ public class Main {
             System.out.println(task);
         }
 
+        System.out.println("Сабтаски в эпике id = 5: " + tm.getEpicSubtasks(5));
+
 //        tm.removeAllTasks();
 //        System.out.println("Отсортированные по времени начала задачи 2:");
 //        for (Task task : tm.getPrioritizedTasks()) {
@@ -40,7 +42,7 @@ public class Main {
         for (Task epic : manager.getAllEpics()) {
             System.out.println(epic);
 
-            for (Task task : manager.getSubtasksToEpicId(epic.getId())) {
+            for (Task task : manager.getEpicSubtasks(epic.getId())) {
                 System.out.println("--> " + task);
             }
         }

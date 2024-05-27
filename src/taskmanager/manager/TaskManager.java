@@ -9,7 +9,7 @@ import java.util.*;
 public interface TaskManager {
     List<Task> getHistory();
 
-    ArrayList<Subtask> getSubtasksToEpicId(int epicId);
+    ArrayList<Subtask> getEpicSubtasks(int epicId);
 
     void createEpic(Epic epic);
 
