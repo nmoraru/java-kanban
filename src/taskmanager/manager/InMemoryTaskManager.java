@@ -5,7 +5,6 @@ import taskmanager.data.Subtask;
 import taskmanager.data.Task;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
     private int currentTaskId = 0;
@@ -31,8 +30,7 @@ public class InMemoryTaskManager implements TaskManager {
         return epicMap.values()
                 .stream()
                 .filter(epic -> epic.getId() == epicId)
-                .map(epic -> epic.getSubtasksInEpic())
-                .collect(Collectors.toList())
+                .map(Epic::getSubtasksInEpic).toList()
                 .get(0)
                 ;
     }
@@ -153,23 +151,23 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskToId(int id) {
-        Task task = taskMap.get(id);
-        historyManager.add(task);
-        return task;
+        return taskMap.values().stream()
+                .filter(task -> task.getId() == id)
+                .peek(historyManager::add).toList().get(0);
     }
 
     @Override
     public Subtask getSubtaskToId(int id) {
-        Subtask subtask = subtaskMap.get(id);
-        historyManager.add(subtask);
-        return subtask;
+        return subtaskMap.values().stream()
+                .filter(task -> task.getId() == id)
+                .peek(historyManager::add).toList().get(0);
     }
 
     @Override
     public Epic getEpicToId(int id) {
-        Epic epic = epicMap.get(id);
-        historyManager.add(epic);
-        return epic;
+        return epicMap.values().stream()
+                .filter(task -> task.getId() == id)
+                .peek(historyManager::add).toList().get(0);
     }
 
     @Override
