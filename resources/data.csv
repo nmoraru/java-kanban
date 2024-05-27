@@ -8,4 +8,4 @@ id,type,name,status,description,duration,startTime,endTime,epic
 7,EPIC,epic4name,NEW,epic4description,0,01.01.9999 00:00,01.01.9999 00:00,
 8,SUBTASK,subtask1name,NEW,subtask1description,999,25.01.1990 11:55,26.01.1990 04:34,4
 9,SUBTASK,subtask2name,IN_PROGRESS,subtask2description,2880,30.12.1990 11:00,01.01.1991 11:00,5
-10,SUBTASK,subtask3name,DONE,subtask3description,2880,30.12.1990 11:00,01.01.1991 11:00,5
+10,SUBTASK,subtask3name,DONE,subtask3description,2880,30.12.1990 12:00,01.01.1991 12:00,5

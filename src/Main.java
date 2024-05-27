@@ -13,11 +13,22 @@ public class Main {
 
         TaskManager tm = loadFromFile(file);
         printAllTasks(tm);
-        System.out.println("Отсортированные по времени начала задачи:");
+        System.out.println("Отсортированные по времени начала задачи 1:");
         for (Task task : tm.getPrioritizedTasks()) {
             System.out.println(task);
         }
 
+        tm.removeAllTasks();
+        System.out.println("Отсортированные по времени начала задачи 2:");
+        for (Task task : tm.getPrioritizedTasks()) {
+            System.out.println(task);
+        }
+
+        tm.removeAllSubtasks();
+        System.out.println("Отсортированные по времени начала задачи 3:");
+        for (Task task : tm.getPrioritizedTasks()) {
+            System.out.println(task);
+        }
     }
 
     private static void printAllTasks(TaskManager manager) {
