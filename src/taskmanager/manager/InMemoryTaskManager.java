@@ -11,9 +11,9 @@ public class InMemoryTaskManager implements TaskManager {
     protected HashMap<Integer, Task> taskMap = new HashMap<>();
     protected HashMap<Integer, Epic> epicMap = new HashMap<>();
     protected HashMap<Integer, Subtask> subtaskMap = new HashMap<>();
-    private HistoryManager historyManager = Managers.getDefaultHistory();
+    final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    private TreeSet<Task> prioritizedTasks = new TreeSet<>();
+    final TreeSet<Task> prioritizedTasks = new TreeSet<>();
 
     public int getNewId() {
         currentTaskId += 1;
@@ -40,24 +40,28 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createSubtask(Subtask subtask) {
-        int newTaskId = getNewId();
         int epicId = subtask.getEpicId();
         Epic epic = epicMap.get(epicId);
 
-        if (epic != null) {
-            subtask.setId(newTaskId);
-            subtaskMap.put(newTaskId, subtask);
-            prioritizedTasks.add(subtask);
+        int newTaskId = getNewId();
+        subtask.setId(newTaskId);
+        subtaskMap.put(newTaskId, subtask);
+        prioritizedTasks.add(subtask);
+        epic.addSubtaskToEpic(subtask);
+    }
 
-            epic.addSubtaskToEpic(subtask);
-        }
+    public static boolean isAfterOtherTask(Task t1, Task t2) {
+        return t1.getStartTime().isAfter(t2.getEndTime());
+    }
+
+    public static boolean isBeforeOtherTask(Task t1, Task t2) {
+        return t1.getEndTime().isBefore(t2.getStartTime());
     }
 
     @Override
     public void createTask(Task task) {
         int newTaskId = getNewId();
         task.setId(newTaskId);
-
         taskMap.put(newTaskId, task);
         prioritizedTasks.add(task);
     }

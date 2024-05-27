@@ -18,17 +18,17 @@ public class Main {
             System.out.println(task);
         }
 
-        tm.removeAllTasks();
-        System.out.println("Отсортированные по времени начала задачи 2:");
-        for (Task task : tm.getPrioritizedTasks()) {
-            System.out.println(task);
-        }
-
-        tm.removeAllSubtasks();
-        System.out.println("Отсортированные по времени начала задачи 3:");
-        for (Task task : tm.getPrioritizedTasks()) {
-            System.out.println(task);
-        }
+//        tm.removeAllTasks();
+//        System.out.println("Отсортированные по времени начала задачи 2:");
+//        for (Task task : tm.getPrioritizedTasks()) {
+//            System.out.println(task);
+//        }
+//
+//        tm.removeAllSubtasks();
+//        System.out.println("Отсортированные по времени начала задачи 3:");
+//        for (Task task : tm.getPrioritizedTasks()) {
+//            System.out.println(task);
+//        }
     }
 
     private static void printAllTasks(TaskManager manager) {
