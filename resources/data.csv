@@ -1,10 +1,13 @@
 id,type,name,status,description,duration,startTime,endTime,epic
 1,TASK,task1name,DONE,task1description,1440,01.01.1990 12:00,02.01.1990 12:00,
 2,TASK,task2name,DONE,task2description,1440,02.01.1990 12:01,03.01.1990 12:01,
-3,EPIC,epic1name,NEW,epic1description,0,01.01.9999 00:00,01.01.9999 00:00,
+3,EPIC,epic1name,NEW,epic1description,null,null,null,
 4,EPIC,epic2name,NEW,epic2description,1440,10.01.1990 11:00,11.01.1990 11:00,
 5,EPIC,epic3name,IN_PROGRESS,epic3description,2880,12.01.1990 11:00,14.01.1990 11:00,
-6,EPIC,epic4name,NEW,epic4description,0,01.01.9999 00:00,01.01.9999 00:00,
+6,EPIC,epic4name,NEW,epic4description,null,null,null,
 7,SUBTASK,subtask1name,NEW,subtask1description,1440,10.01.1990 11:00,11.01.1990 11:00,4
 8,SUBTASK,subtask2name,IN_PROGRESS,subtask2description,1440,12.01.1990 11:00,13.01.1990 11:00,5
 9,SUBTASK,subtask3name,DONE,subtask3description,1440,14.01.1990 11:00,15.01.1990 11:00,5
+10,TASK,task1name,DONE,task1description,0,null,null,
+11,EPIC,epic1name,DONE,epic1description,null,null,null,
+12,SUBTASK,subtask1name,DONE,subtask1description,0,null,null,11

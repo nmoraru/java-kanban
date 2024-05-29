@@ -43,9 +43,27 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
+    public void createTask(Task task) {
+        if (task.getStartTime() != null && task.getDuration() != null) {
+            if (isBusyTimeForTask(task)) {
+                return;
+            }
+        }
+        int newTaskId = getNewId();
+        task.setId(newTaskId);
+        taskMap.put(newTaskId, task);
+        if (task.getStartTime() != null && task.getDuration() != null) {
+            prioritizedTasks.add(task);
+        }
+
+    }
+
+    @Override
     public void createSubtask(Subtask subtask) {
-        if (isBusyTimeForTask(subtask)) {
-            return;
+        if (subtask.getStartTime() != null && subtask.getDuration() != null) {
+            if (isBusyTimeForTask(subtask)) {
+                return;
+            }
         }
         int epicId = subtask.getEpicId();
         Epic epic = epicMap.get(epicId);
@@ -53,7 +71,9 @@ public class InMemoryTaskManager implements TaskManager {
         int newTaskId = getNewId();
         subtask.setId(newTaskId);
         subtaskMap.put(newTaskId, subtask);
-        prioritizedTasks.add(subtask);
+        if (subtask.getStartTime() != null && subtask.getDuration() != null) {
+            prioritizedTasks.add(subtask);
+        }
         epic.addSubtaskToEpic(subtask);
     }
 
@@ -76,17 +96,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     private boolean isBeforeOtherTask(Task t1, Task t2) {
         return t1.getEndTime().isBefore(t2.getStartTime());
-    }
-
-    @Override
-    public void createTask(Task task) {
-        if (isBusyTimeForTask(task)) {
-            return;
-        }
-        int newTaskId = getNewId();
-        task.setId(newTaskId);
-        taskMap.put(newTaskId, task);
-        prioritizedTasks.add(task);
     }
 
     @Override
@@ -177,7 +186,10 @@ public class InMemoryTaskManager implements TaskManager {
         }
         int taskId = task.getId();
         taskMap.put(taskId, task);
-        prioritizedTasks.add(task);
+
+        if (task.getStartTime() != null && task.getDuration() != null) {
+            prioritizedTasks.add(task);
+        }
     }
 
     @Override
@@ -188,7 +200,10 @@ public class InMemoryTaskManager implements TaskManager {
         int subtaskId = subtask.getId();
         int epicId = subtask.getEpicId();
         subtaskMap.put(subtaskId, subtask);
-        prioritizedTasks.add(subtask);
+
+        if (subtask.getStartTime() != null && subtask.getDuration() != null) {
+            prioritizedTasks.add(subtask);
+        }
 
         Epic epic = epicMap.get(epicId);
         epic.addSubtaskToEpic(subtask);
@@ -204,6 +219,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void removeTaskById(int id) {
         historyManager.remove(id);
         prioritizedTasks.remove(getTaskToId(id));
+        historyManager.remove(id);
         taskMap.remove(id);
     }
 
@@ -226,8 +242,8 @@ public class InMemoryTaskManager implements TaskManager {
         int epicId = subtask.getEpicId();
         Epic epic = epicMap.get(epicId);
 
+        prioritizedTasks.remove(id);
         historyManager.remove(id);
-        prioritizedTasks.remove(getSubtaskToId(id));
         subtaskMap.remove(id);
         epic.removeSubtaskToEpic(subtask);
     }

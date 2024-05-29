@@ -24,12 +24,28 @@ public class Task implements Comparable<Task> {
         this.status = status;
         type = Type.TASK;
         this.duration = Duration.ofMinutes(duration);
-        this.startTime = LocalDateTime.parse(startTime, formatter);
-        endTime = LocalDateTime.parse(startTime, formatter).plus(Duration.ofMinutes(duration));
+        this.startTime = startTime.equals("null") ? null : LocalDateTime.parse(startTime, formatter);
+        endTime = startTime.equals("null") ? null : LocalDateTime.parse(startTime, formatter).plus(Duration.ofMinutes(duration));
+    }
+
+    public Task(String name, String description, int id, Status status) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = status;
+        type = Type.TASK;
+        this.duration = null;
+        this.startTime = null;
+        endTime = null;
     }
 
     public LocalDateTime getEndTime() {
-        return startTime.plus(duration);
+        if (startTime != null) {
+            return startTime.plus(duration);
+        } else {
+            return null;
+        }
+
     }
 
     public String getName() {
@@ -85,9 +101,9 @@ public class Task implements Comparable<Task> {
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
-                ", startTime=" + startTime.format(formatter) +
-                ", endTime=" + endTime.format(formatter) +
-                ", duration=" + duration.toMinutes() +
+                ", startTime=" + (startTime != null ? startTime.format(formatter) : null) +
+                ", endTime=" + (endTime != null ? endTime.format(formatter) : null) +
+                ", duration="  + (duration != null ? duration.toMinutes() : null) +
                 '}';
     }
 

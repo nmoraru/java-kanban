@@ -40,6 +40,31 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private String toString(Task task) {
+        String duration;
+        String startTime;
+        String endTime;
+
+
+        if (task.getDuration() == null) {
+            duration = "null";
+        } else {
+            duration = String.valueOf(task.getDuration().toMinutes());
+        }
+
+        if (task.getStartTime() == null) {
+            startTime = "null";
+        } else {
+            startTime = task.getStartTime().format(formatter);
+        }
+
+        if (task.getEndTime() == null) {
+            endTime = "null";
+        } else {
+            endTime = task.getEndTime().format(formatter);
+        }
+
+
+
         switch (task.getType()) {
             case SUBTASK:
                 return String.join(",",
@@ -48,9 +73,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         task.getName(),
                         task.getStatus().toString(),
                         task.getDescription(),
-                        String.valueOf(task.getDuration().toMinutes()),
-                        task.getStartTime().format(formatter),
-                        task.getEndTime().format(formatter),
+                        duration,
+                        startTime,
+                        endTime,
                         Integer.toString(((Subtask) task).getEpicId()));
             case TASK, EPIC:
                 return String.join(",",
@@ -59,9 +84,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         task.getName(),
                         task.getStatus().toString(),
                         task.getDescription(),
-                        String.valueOf(task.getDuration().toMinutes()),
-                        task.getStartTime().format(formatter),
-                        task.getEndTime().format(formatter),
+                        duration,
+                        startTime,
+                        endTime,
                         "");
         }
         return null;
@@ -75,7 +100,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String description = itemParams[4];
         Status status;
         String type = itemParams[1];
-        long duration = Long.parseLong(itemParams[5]);
+        long duration = 0L;
+        if (!itemParams[5].equals("null")) {
+            duration = Long.parseLong(itemParams[5]);
+        }
         String startTime = itemParams[6];
 
         if (itemParams[3].equals("NEW")) {

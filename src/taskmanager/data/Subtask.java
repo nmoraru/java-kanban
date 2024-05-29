@@ -1,5 +1,7 @@
 package taskmanager.data;
 
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     public int epicId;
 
@@ -7,6 +9,15 @@ public class Subtask extends Task {
         super(name, description, id, status, duration, startTime);
         this.epicId = epic;
         type = Type.SUBTASK;
+    }
+
+    public Subtask(String name, String description, int id, Status status, int epic) {
+        super(name, description, id, status);
+        this.epicId = epic;
+        type = Type.SUBTASK;
+        this.duration = null;
+        this.startTime = null;
+        endTime = null;
     }
 
     public int getEpicId() {
@@ -22,9 +33,9 @@ public class Subtask extends Task {
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
-                ", startTime=" + startTime.format(formatter) +
-                ", endTime=" + endTime.format(formatter) +
-                ", duration=" + duration.toMinutes() +
+                ", startTime=" + (startTime != null ? startTime.format(formatter) : null) +
+                ", endTime=" + (endTime != null ? endTime.format(formatter) : null) +
+                ", duration="  + (duration != null ? duration.toMinutes() : null) +
                 '}';
     }
 }
