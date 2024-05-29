@@ -1,5 +1,3 @@
-import taskmanager.data.Status;
-import taskmanager.data.Subtask;
 import taskmanager.data.Task;
 import taskmanager.manager.TaskManager;
 
@@ -14,9 +12,6 @@ public class Main {
         File file = new File(path);
 
         TaskManager tm = loadFromFile(file);
-
-        Subtask subtask1 = new Subtask("subtask1", "subtask1", 1, Status.NEW, 1);
-        tm.createSubtask(subtask1);
 
         printAllTasks(tm);
     }
