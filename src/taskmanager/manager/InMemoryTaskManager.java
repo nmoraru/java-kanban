@@ -77,7 +77,7 @@ public class InMemoryTaskManager implements TaskManager {
         epic.addSubtaskToEpic(subtask);
     }
 
-    private boolean isBusyTimeForTask (Task task) {
+    private boolean isBusyTimeForTask(Task task) {
         if (!prioritizedTasks.isEmpty()) {
             for (Task prioritizedTask : getPrioritizedTasks()) {
                 if (!isBeforeOtherTask(prioritizedTask, task)) {
