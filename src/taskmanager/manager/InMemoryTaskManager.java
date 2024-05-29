@@ -68,13 +68,16 @@ public class InMemoryTaskManager implements TaskManager {
         int epicId = subtask.getEpicId();
         Epic epic = epicMap.get(epicId);
 
-        int newTaskId = getNewId();
-        subtask.setId(newTaskId);
-        subtaskMap.put(newTaskId, subtask);
-        if (subtask.getStartTime() != null && subtask.getDuration() != null) {
-            prioritizedTasks.add(subtask);
+        if (epic != null) {
+            int newTaskId = getNewId();
+            subtask.setId(newTaskId);
+            subtaskMap.put(newTaskId, subtask);
+            if (subtask.getStartTime() != null && subtask.getDuration() != null) {
+                prioritizedTasks.add(subtask);
+            }
+            epic.addSubtaskToEpic(subtask);
         }
-        epic.addSubtaskToEpic(subtask);
+
     }
 
     private boolean isBusyTimeForTask(Task task) {
