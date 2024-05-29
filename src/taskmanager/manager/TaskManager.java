@@ -47,5 +47,5 @@ public interface TaskManager {
 
     void removeSubtaskById(int id);
 
-    TreeSet<Task> getPrioritizedTasks();
+    List<Task> getPrioritizedTasks();
 }

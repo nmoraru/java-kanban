@@ -11,9 +11,9 @@ public class InMemoryTaskManager implements TaskManager {
     protected HashMap<Integer, Task> taskMap = new HashMap<>();
     protected HashMap<Integer, Epic> epicMap = new HashMap<>();
     protected HashMap<Integer, Subtask> subtaskMap = new HashMap<>();
-    final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    final TreeSet<Task> prioritizedTasks = new TreeSet<>();
+    protected final Set prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
     public int getNewId() {
         currentTaskId += 1;
@@ -133,11 +133,11 @@ public class InMemoryTaskManager implements TaskManager {
         Set<Integer> idSubtasks = subtaskMap.keySet();
         if (!idSubtasks.isEmpty()) {
             for (Integer id : idSubtasks) {
+                prioritizedTasks.remove(getSubtaskToId(id));
                 historyManager.remove(id);
+                removeSubtaskById(id);
             }
         }
-
-        removeAllEpics();
     }
 
     @Override
@@ -184,6 +184,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
+        prioritizedTasks.remove(task);
         if (isBusyTimeForTask(task)) {
             return;
         }
@@ -197,6 +198,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubtask(Subtask subtask) {
+        prioritizedTasks.remove(subtask);
         if (isBusyTimeForTask(subtask)) {
             return;
         }
@@ -251,7 +253,7 @@ public class InMemoryTaskManager implements TaskManager {
         epic.removeSubtaskToEpic(subtask);
     }
 
-    public TreeSet<Task> getPrioritizedTasks() {
-        return new TreeSet<>(prioritizedTasks);
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks);
     }
 }
