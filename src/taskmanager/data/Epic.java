@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    private final String MAX_TIME = "01.01.9999 00:00";
-    private final String MIN_TIME = "01.01.0001 00:00";
+    private final String maxTime = "01.01.9999 00:00";
+    private final String minTime = "01.01.0001 00:00";
     private ArrayList<Subtask> subtasksInEpic = new ArrayList<>();
 
     public Epic(String name, String description, int id) {
@@ -94,7 +94,7 @@ public class Epic extends Task {
     }
 
     private void calculateEpicStartTime() {
-        startTime = LocalDateTime.parse(MAX_TIME, formatter);
+        startTime = LocalDateTime.parse(maxTime, formatter);
         if (!subtasksInEpic.isEmpty()) {
             for (Subtask subtask : subtasksInEpic) {
                 LocalDateTime subtaskStartTime = subtask.getStartTime();
@@ -106,7 +106,7 @@ public class Epic extends Task {
     }
 
     private void calculateEpicEndTime() {
-        endTime = LocalDateTime.parse(MIN_TIME, formatter);
+        endTime = LocalDateTime.parse(minTime, formatter);
         if (!subtasksInEpic.isEmpty()) {
             for (Subtask subtask : subtasksInEpic) {
                 LocalDateTime subtaskEndTime = subtask.getEndTime();
