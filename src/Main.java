@@ -12,6 +12,7 @@ public class Main {
         File file = new File(path);
 
         TaskManager tm = loadFromFile(file);
+
         printAllTasks(tm);
     }
 
@@ -24,7 +25,7 @@ public class Main {
         for (Task epic : manager.getAllEpics()) {
             System.out.println(epic);
 
-            for (Task task : manager.getSubtasksToEpicId(epic.getId())) {
+            for (Task task : manager.getEpicSubtasks(epic.getId())) {
                 System.out.println("--> " + task);
             }
         }

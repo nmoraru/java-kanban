@@ -1,8 +1,12 @@
 package taskmanager.data;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
+    private final String maxTime = "01.01.9999 00:00";
+    private final String minTime = "01.01.0001 00:00";
     private ArrayList<Subtask> subtasksInEpic = new ArrayList<>();
 
     public Epic(String name, String description, int id) {
@@ -19,6 +23,9 @@ public class Epic extends Task {
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
+                ", startTime=" + (startTime != null ? startTime.format(formatter) : null) +
+                ", endTime=" + (endTime != null ? endTime.format(formatter) : null) +
+                ", duration="  + (duration != null ? duration.toMinutes() : null) +
                 '}';
     }
 
@@ -32,11 +39,21 @@ public class Epic extends Task {
         }
         subtasksInEpic.add(subtask);
         calculateEpicStatus();
+        if (subtask.getStartTime() != null) {
+            calculateEpicDuration();
+            calculateEpicStartTime();
+            calculateEpicEndTime();
+        }
     }
 
     public void removeSubtaskToEpic(Subtask subtask) {
         subtasksInEpic.remove(subtask);
         calculateEpicStatus();
+        if (startTime != null) {
+            calculateEpicDuration();
+            calculateEpicStartTime();
+            calculateEpicEndTime();
+        }
     }
 
     private void calculateEpicStatus() {
@@ -65,5 +82,38 @@ public class Epic extends Task {
         }
 
         this.status = status;
+    }
+
+    private void calculateEpicDuration() {
+        duration = Duration.ofMinutes(0);
+        if (!subtasksInEpic.isEmpty()) {
+            for (Subtask subtask : subtasksInEpic) {
+                duration = duration.plus(subtask.duration);
+            }
+        }
+    }
+
+    private void calculateEpicStartTime() {
+        startTime = LocalDateTime.parse(maxTime, formatter);
+        if (!subtasksInEpic.isEmpty()) {
+            for (Subtask subtask : subtasksInEpic) {
+                LocalDateTime subtaskStartTime = subtask.getStartTime();
+                if (subtaskStartTime.isBefore(startTime)) {
+                    startTime = subtaskStartTime;
+                }
+            }
+        }
+    }
+
+    private void calculateEpicEndTime() {
+        endTime = LocalDateTime.parse(minTime, formatter);
+        if (!subtasksInEpic.isEmpty()) {
+            for (Subtask subtask : subtasksInEpic) {
+                LocalDateTime subtaskEndTime = subtask.getEndTime();
+                if (subtaskEndTime.isAfter(endTime)) {
+                    endTime = subtaskEndTime;
+                }
+            }
+        }
     }
 }

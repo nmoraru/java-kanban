@@ -4,14 +4,12 @@ import taskmanager.data.Epic;
 import taskmanager.data.Subtask;
 import taskmanager.data.Task;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public interface TaskManager {
     List<Task> getHistory();
 
-    ArrayList<Subtask> getSubtasksToEpicId(int epicId);
+    ArrayList<Subtask> getEpicSubtasks(int epicId);
 
     void createEpic(Epic epic);
 
@@ -48,4 +46,6 @@ public interface TaskManager {
     void removeEpicById(int id);
 
     void removeSubtaskById(int id);
+
+    List<Task> getPrioritizedTasks();
 }
