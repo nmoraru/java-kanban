@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    private final String maxTime = "01.01.9999 00:00";
-    private final String minTime = "01.01.0001 00:00";
+    private static final String maxTime = "01.01.9999 00:00";
+    private static final String minTime = "01.01.0001 00:00";
     private ArrayList<Subtask> subtasksInEpic = new ArrayList<>();
 
     public Epic(String name, String description, int id) {
@@ -17,12 +17,12 @@ public class Epic extends Task {
     @Override
     public String toString() {
         return "Epic{" +
-                "subtasks=" + subtasksInEpic +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
+                ", subtasks=" + subtasksInEpic +
                 ", startTime=" + (startTime != null ? startTime.format(formatter) : null) +
                 ", endTime=" + (endTime != null ? endTime.format(formatter) : null) +
                 ", duration="  + (duration != null ? duration.toMinutes() : null) +

@@ -13,7 +13,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected HashMap<Integer, Subtask> subtaskMap = new HashMap<>();
     protected final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    protected final Set prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
+    protected final Set<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
     public int getNewId() {
         currentTaskId += 1;
@@ -55,7 +55,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (task.getStartTime() != null && task.getDuration() != null) {
             prioritizedTasks.add(task);
         }
-
     }
 
     @Override
@@ -165,21 +164,26 @@ public class InMemoryTaskManager implements TaskManager {
     public Task getTaskToId(int id) {
         return taskMap.values().stream()
                 .filter(task -> task.getId() == id)
-                .peek(historyManager::add).toList().get(0);
+                .peek(historyManager::add)
+                .toList()
+                .stream().findFirst().orElse(null)
+                ;
     }
 
     @Override
     public Subtask getSubtaskToId(int id) {
         return subtaskMap.values().stream()
                 .filter(task -> task.getId() == id)
-                .peek(historyManager::add).toList().get(0);
+                .peek(historyManager::add).toList()
+                .stream().findFirst().orElse(null);
     }
 
     @Override
     public Epic getEpicToId(int id) {
         return epicMap.values().stream()
                 .filter(task -> task.getId() == id)
-                .peek(historyManager::add).toList().get(0);
+                .peek(historyManager::add).toList()
+                .stream().findFirst().orElse(null);
     }
 
     @Override
@@ -223,7 +227,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeTaskById(int id) {
         historyManager.remove(id);
-        prioritizedTasks.remove(getTaskToId(id));
+        Task task = getTaskToId(id);
+        if (task != null && (task.getDuration() != null && task.getDuration().toMinutes() != 0)) {
+            prioritizedTasks.remove(task);
+        }
         historyManager.remove(id);
         taskMap.remove(id);
     }
@@ -247,7 +254,9 @@ public class InMemoryTaskManager implements TaskManager {
         int epicId = subtask.getEpicId();
         Epic epic = epicMap.get(epicId);
 
-        prioritizedTasks.remove(id);
+        if (subtask.getDuration() != null && subtask.getDuration().toMinutes() != 0) {
+            prioritizedTasks.remove(subtask);
+        }
         historyManager.remove(id);
         subtaskMap.remove(id);
         epic.removeSubtaskToEpic(subtask);
