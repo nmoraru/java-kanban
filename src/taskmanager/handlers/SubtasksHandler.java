@@ -1,5 +1,6 @@
 package taskmanager.handlers;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import taskmanager.data.Subtask;
@@ -11,8 +12,8 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 public class SubtasksHandler extends BaseHttpHandler implements HttpHandler {
-    public SubtasksHandler(TaskManager tm) {
-        super(tm);
+    public SubtasksHandler(TaskManager tm, Gson gson) {
+        super(tm, gson);
     }
 
     @Override

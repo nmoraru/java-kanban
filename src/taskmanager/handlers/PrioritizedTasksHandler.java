@@ -1,5 +1,6 @@
 package taskmanager.handlers;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import taskmanager.manager.TaskManager;
@@ -9,8 +10,8 @@ import java.net.URI;
 
 public class PrioritizedTasksHandler extends BaseHttpHandler implements HttpHandler {
 
-    public PrioritizedTasksHandler(TaskManager tm) {
-        super(tm);
+    public PrioritizedTasksHandler(TaskManager tm, Gson gson) {
+        super(tm, gson);
     }
 
     @Override

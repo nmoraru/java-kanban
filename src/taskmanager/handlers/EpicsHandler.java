@@ -1,5 +1,6 @@
 package taskmanager.handlers;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import taskmanager.data.Epic;
@@ -11,8 +12,8 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
-    public EpicsHandler(TaskManager tm) {
-        super(tm);
+    public EpicsHandler(TaskManager tm, Gson gson) {
+        super(tm, gson);
     }
 
     @Override
