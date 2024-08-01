@@ -8,7 +8,6 @@ import taskmanager.manager.TaskManager;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
@@ -17,71 +16,63 @@ public class EpicsHandler extends BaseHttpHandler implements HttpHandler {
     }
 
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
-        String response = "";
-        String method = httpExchange.getRequestMethod();
-        URI requestURI = httpExchange.getRequestURI();
-        String path = requestURI.getPath();
-        String[] splitPath = path.split("/");
+    protected void processGet(HttpExchange httpExchange) throws IOException {
+        if (splitPath.length == 2) {
+            response = handleGetAllEpics();
+        }
+        if (splitPath.length == 3) {
+            response = handleGetEpicToId(Integer.parseInt(splitPath[2]));
+        }
+        if (!response.equals("null")) {
+            sendText(httpExchange, 200, response);
+        } else {
+            sendNotFound(httpExchange, "Invalid method.");
+        }
+    }
 
-        switch (method) {
-            case "POST":
-                InputStream is = httpExchange.getRequestBody();
-                String resp = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-                Epic newEpic = gson.fromJson(resp, Epic.class);
-                System.out.println(newEpic);
+    @Override
+    protected void processDelete(HttpExchange httpExchange) throws IOException {
+        if (splitPath.length == 3 && tm.getEpicToId(Integer.parseInt(splitPath[2])) != null) {
+            tm.removeEpicById(Integer.parseInt(splitPath[2]));
+            sendText(httpExchange, 201, "Epic delete.");
+        } else {
+            sendNotFound(httpExchange, "Invalid method.");
+        }
+    }
 
-                if (splitPath.length == 2) {
-                    if (tm.getEpicToId(newEpic.getId()) == null) {
-                        tm.createEpic(newEpic);
-                        if (tm.getEpicToId(newEpic.getId()) != null) {
-                            sendText(httpExchange, 201, "Epic create.");
-                        } else {
-                            sendHasInteractions(httpExchange, "Epic not create. Is busy time for epic.");
-                        }
-                    } else {
-                        sendNotFound(httpExchange, "Epic not created.");
-                    }
-                } else if (splitPath.length == 3) {
-                    int parseEpicId = Integer.parseInt(splitPath[2]);
-                    if (tm.getEpicToId(parseEpicId) != null
-                            && parseEpicId == newEpic.getId()) {
-                        tm.updateEpic(newEpic);
-                        if (tm.getEpicToId(newEpic.getId()) != null) {
-                            sendText(httpExchange, 201, "Epic update.");
-                        } else {
-                            sendHasInteractions(httpExchange, "Epic not update. Is busy time for epic.");
-                        }
-                    } else {
-                        sendNotFound(httpExchange, "Epic not update.");
-                    }
+    @Override
+    protected void processPost(HttpExchange httpExchange) throws IOException {
+        InputStream is = httpExchange.getRequestBody();
+        String resp = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        Epic newEpic = gson.fromJson(resp, Epic.class);
+        System.out.println(newEpic);
+
+        if (splitPath.length == 2) {
+            if (tm.getEpicToId(newEpic.getId()) == null) {
+                tm.createEpic(newEpic);
+                if (tm.getEpicToId(newEpic.getId()) != null) {
+                    sendText(httpExchange, 201, "Epic create.");
                 } else {
-                    sendNotFound(httpExchange, "Invalid method.");
+                    sendHasInteractions(httpExchange, "Epic not create. Is busy time for epic.");
                 }
-                break;
-            case "DELETE":
-                if (splitPath.length == 3 && tm.getEpicToId(Integer.parseInt(splitPath[2])) != null) {
-                    tm.removeEpicById(Integer.parseInt(splitPath[2]));
-                    sendText(httpExchange, 201, "Epic delete.");
+            } else {
+                sendNotFound(httpExchange, "Epic not created.");
+            }
+        } else if (splitPath.length == 3) {
+            int parseEpicId = Integer.parseInt(splitPath[2]);
+            if (tm.getEpicToId(parseEpicId) != null
+                    && parseEpicId == newEpic.getId()) {
+                tm.updateEpic(newEpic);
+                if (tm.getEpicToId(newEpic.getId()) != null) {
+                    sendText(httpExchange, 201, "Epic update.");
                 } else {
-                    sendNotFound(httpExchange, "Invalid method.");
+                    sendHasInteractions(httpExchange, "Epic not update. Is busy time for epic.");
                 }
-                break;
-            case "GET":
-                if (splitPath.length == 2) {
-                    response = handleGetAllEpics();
-                }
-                if (splitPath.length == 3) {
-                    response = handleGetEpicToId(Integer.parseInt(splitPath[2]));
-                }
-                if (!response.equals("null")) {
-                    sendText(httpExchange, 200, response);
-                } else {
-                    sendNotFound(httpExchange, "Invalid method.");
-                }
-                break;
-            default:
-                sendNotFound(httpExchange, "Invalid method.");
+            } else {
+                sendNotFound(httpExchange, "Epic not update.");
+            }
+        } else {
+            sendNotFound(httpExchange, "Invalid method.");
         }
     }
 

@@ -5,8 +5,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import taskmanager.data.Epic;
-import taskmanager.data.Task;
 import taskmanager.manager.InMemoryTaskManager;
+import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 
 import java.io.IOException;
@@ -17,8 +17,6 @@ import java.net.http.HttpResponse;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static taskmanager.data.Status.DONE;
-import static taskmanager.data.Status.NEW;
 
 public class HttpTaskManagerEpicsTest {
 
@@ -26,7 +24,7 @@ public class HttpTaskManagerEpicsTest {
     TaskManager manager = new InMemoryTaskManager();
     // передаём его в качестве аргумента в конструктор HttpTaskServer
     HttpTaskServer taskServer = new HttpTaskServer(manager);
-    Gson gson = HttpTaskServer.getGson();
+    Gson gson = Managers.getGson();
 
     public HttpTaskManagerEpicsTest() throws IOException {
     }

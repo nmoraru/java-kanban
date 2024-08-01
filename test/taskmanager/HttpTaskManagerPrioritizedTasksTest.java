@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import taskmanager.data.Task;
 import taskmanager.manager.InMemoryTaskManager;
+import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 
 import java.io.IOException;
@@ -13,10 +14,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Collection;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static taskmanager.data.Status.DONE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static taskmanager.data.Status.NEW;
 
 public class HttpTaskManagerPrioritizedTasksTest {
@@ -25,7 +24,7 @@ public class HttpTaskManagerPrioritizedTasksTest {
     TaskManager manager = new InMemoryTaskManager();
     // передаём его в качестве аргумента в конструктор HttpTaskServer
     HttpTaskServer taskServer = new HttpTaskServer(manager);
-    Gson gson = HttpTaskServer.getGson();
+    Gson gson = Managers.getGson();
 
     public HttpTaskManagerPrioritizedTasksTest() throws IOException {
     }

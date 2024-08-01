@@ -8,6 +8,7 @@ import taskmanager.data.Epic;
 import taskmanager.data.Subtask;
 import taskmanager.data.Task;
 import taskmanager.manager.InMemoryTaskManager;
+import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class HttpTaskManagerSubtasksTest {
     TaskManager manager = new InMemoryTaskManager();
     // передаём его в качестве аргумента в конструктор HttpTaskServer
     HttpTaskServer taskServer = new HttpTaskServer(manager);
-    Gson gson = HttpTaskServer.getGson();
+    Gson gson = Managers.getGson();
 
     public HttpTaskManagerSubtasksTest() throws IOException {
     }

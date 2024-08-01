@@ -1,19 +1,15 @@
 package taskmanager;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import taskmanager.data.Task;
 import taskmanager.handlers.*;
-import taskmanager.jsonadapters.DurationAdapter;
-import taskmanager.jsonadapters.LocalDateTimeAdapter;
+import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 import static taskmanager.manager.FileBackedTaskManager.loadFromFile;
 
@@ -22,21 +18,10 @@ public class HttpTaskServer {
     private static final int PORT = 8080;
     static TaskManager tm;
     static HttpServer httpServer;
-    static GsonBuilder gsonBuilder = new GsonBuilder();
-    static Gson gson;
 
     public HttpTaskServer(TaskManager tm) throws IOException {
         this.tm = tm;
-        gson = gsonBuilder.setPrettyPrinting()
-                .serializeNulls()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-                .registerTypeAdapter(Duration.class, new DurationAdapter())
-                .create();
         httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
-    }
-
-    public static Gson getGson() {
-        return gson;
     }
 
     public static void main(String[] args) throws IOException {
@@ -45,11 +30,6 @@ public class HttpTaskServer {
         File file = new File(path);
         tm = loadFromFile(file);
         printAllTasks(tm);
-        gson = gsonBuilder.setPrettyPrinting()
-                .serializeNulls()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-                .registerTypeAdapter(Duration.class, new DurationAdapter())
-                .create();
         httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
         start(tm);
 
@@ -57,6 +37,7 @@ public class HttpTaskServer {
     }
 
     protected static void start(TaskManager tm) {
+        Gson gson = Managers.getGson();
         httpServer.createContext("/tasks", new TasksHandler(tm, gson));
         httpServer.createContext("/subtasks", new SubtasksHandler(tm, gson));
         httpServer.createContext("/epics", new EpicsHandler(tm, gson));
