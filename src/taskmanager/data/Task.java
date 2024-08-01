@@ -15,7 +15,7 @@ public class Task implements Comparable<Task> {
     protected Duration duration;
     protected LocalDateTime startTime;
     protected LocalDateTime endTime;
-    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     public Task(String name, String description, int id, Status status, long duration, String startTime) {
         this.name = name;
@@ -97,7 +97,7 @@ public class Task implements Comparable<Task> {
     public String toString() {
         return "Task{" +
                 "name='" + name + '\'' +
-                "type='" + type + '\'' +
+                ", type='" + type + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status +
