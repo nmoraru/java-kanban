@@ -1,9 +1,10 @@
-package taskmanager;
+package taskmanager.httptaskserver;
 
 import com.google.gson.Gson;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import taskmanager.HttpTaskServer;
 import taskmanager.data.Task;
 import taskmanager.manager.InMemoryTaskManager;
 import taskmanager.manager.Managers;

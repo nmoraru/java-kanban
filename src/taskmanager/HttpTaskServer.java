@@ -36,7 +36,7 @@ public class HttpTaskServer {
         System.out.println("HTTP-сервер запущен на " + PORT + " порту!");
     }
 
-    protected static void start(TaskManager tm) {
+    public static void start(TaskManager tm) {
         Gson gson = Managers.getGson();
         httpServer.createContext("/tasks", new TasksHandler(tm, gson));
         httpServer.createContext("/subtasks", new SubtasksHandler(tm, gson));
@@ -46,7 +46,7 @@ public class HttpTaskServer {
         httpServer.start();
     }
 
-    protected static void stop() {
+    public static void stop() {
         httpServer.stop(2);
     }
 
