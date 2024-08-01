@@ -78,9 +78,15 @@ public class BaseHttpHandler implements HttpHandler {
         }
     }
 
-    protected void processGet(HttpExchange httpExchange) throws IOException {}
+    protected void processGet(HttpExchange httpExchange) throws IOException {
 
-    protected void processPost(HttpExchange httpExchange) throws IOException {}
+    }
 
-    protected void processDelete(HttpExchange httpExchange) throws IOException {}
+    protected void processPost(HttpExchange httpExchange) throws IOException {
+
+    }
+
+    protected void processDelete(HttpExchange httpExchange) throws IOException {
+
+    }
 }
